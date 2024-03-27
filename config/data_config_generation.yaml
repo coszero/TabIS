@@ -1,0 +1,87 @@
+# pipeline settings for generating benchmark datasets
+# the pipeline includes: (1) load the raw dataset; (2) transform the raw dataset to TableQASample dataset;
+#                        (3) [Optional] postprocess the TableQASample; (4) construct the prompts
+
+# Here is an example of the configuration.
+TASK_EXAMPLE:                       # task name (unique)
+  wikisql:                    # dataset name (unique)
+    script_name: wikisql.py   # [Required] scripts to load the raw_dataset. this file must in path/to/project/data/raw_dataset
+    gen_option_func:          # [Optional] function name of gen_option_func. this function must in path/to/project/data/datasets_funcs.py
+    org2tqas_func: from_wiki  # [Required] function name of org2tqas_func. this function must in path/to/project/data/datasets_funcs.py
+    post_process_func: postprocess_wikisql  # [Optional] function name of post_process_func. this function must in path/to/project/data/datasets_funcs.py
+    task_description: "Please complete the tabular question answering task."  # [Required] task description of this dataset
+    evidence: ["table"]  # [Required] available evidences: ["table", "caption", "passage"]
+
+# Perceptual information seeking
+PIS:
+  mc-pcl_wiki:  # dataset name
+    org_dataset: pcl_wiki   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    script_name: mc_pcl_dataset_real.json
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    evidence: ["table", "options"]
+
+  mc-rcl_wiki:  # dataset name
+    org_dataset: rcl_wiki   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    script_name: mc_rcl_dataset_real.json
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    evidence: ["table", "options"]
+
+  mc-prl_wiki:  # dataset name
+    org_dataset: prl_wiki   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    script_name: mc_prl_dataset_real.json
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    evidence: ["table", "options"]
+
+  mc-rrl_wiki:  # dataset name
+    org_dataset: rrl_wiki   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    script_name: mc_rrl_dataset_real.json
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    evidence: ["table", "options"]
+
+  mc-pll_wiki:  # dataset name
+    org_dataset: pll_wiki   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    script_name: mc_pll_dataset_real.json
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    evidence: ["table", "options"]
+
+  mc-rll_wiki:  # dataset name
+    org_dataset: rll_wiki   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    script_name: mc_rll_dataset_real.json
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    evidence: ["table", "options"]
+
+
+# tabular information acquisition
+SIS:
+  totto_c2t:  # dataset name
+    script_name: totto.py   # [Required] script to load the raw_dataset. this file must in path/to/project/data/raw_dataset
+    org2tqas_func: from_totto_c2t  # [Required] function name of org2tqas_func. this function must in path/to/project/data/datasets_funcs.py
+    post_process_func:  # [Optional] function name of post_process_func. this function must in path/to/project/data/datasets_funcs.py
+    task_description: "Given a set of highlighted cells in a table, your task is to give a statement which can correctly describe the information of highlighted cells from the table. The sentence should be consise and cover the content of highlighted cells as much as possible. For example, given cells 'The Perth Wildcats', '14,846', and 'Perth Arena' in a table, one possible sentence is 'In the 2012–13 Adelaide 36ers season, The Perth Wildcats are the team with a venue of 14,846 seats at Perth Arena.'"  # [Required] task description of this dataset
+    evidence: ["table", "caption"]
+
+  mc-totto_c2t:  # dataset name
+    org_dataset: totto_c2t   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    gen_option_func: gen_option_universal
+    task_description: Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B.
+    # "Given a set of highlighted cells Q, a table called Table and four options A, B, C, D.Each highlighted cell is given in the format of (content, x coordinate, y coordinate).\nYour task is to give the best option from options A, B, C, D which can best match and correctly describe the information of highlighted cells. \nYou should only output one letter from A,B,C,D to indicate which option you choose. Do not output Anything except your option.\nHere is an example for you.\n"  # [Required] task description of this dataset
+    evidence: ["table", "options", "caption"]
+    
+  hitab_c2t:  # dataset name
+    script_name: hitab.json   # [Required] script to load the raw_dataset. this file must in path/to/project/data/raw_dataset
+    org2tqas_func: from_hitab_c2t  # [Required] function name of org2tqas_func. this function must in path/to/project/data/datasets_funcs.py
+    post_process_func:  # [Optional] function name of post_process_func. this function must in path/to/project/data/datasets_funcs.py
+    task_description: "Given a set of highlighted cells in the Question and a table.Each highlighted cell is given in the format of (content, x coordinate, y coordinate).\nYour task is to give a sentence which can correctly describe the information of highlighted cells.\n"  # [Required] task description of this dataset
+    evidence: ["table", "caption"]
+
+  mc-hitab_c2t:  # dataset name
+    org_dataset: hitab_c2t   # will inherit the `script_name`, `org2tqas_func` and `post_process_func` from the setting of the original dataset.
+    gen_option_func: gen_option_universal
+    task_description: "Please proceed with a table-based question answering exercise. You will be provided with a table and a corresponding question. Your task is to select the most appropriate answer from the options A or B."  # [Required] task description of this dataset
+    evidence: ["table", "options", "caption"]

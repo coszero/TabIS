@@ -1,0 +1,124 @@
+# proprietary
+gpt-3.5-turbo:
+  class_name: APIAgent
+  setting: 
+    model: gpt-3.5-turbo
+    sys_prompt: ''
+
+gpt-3.5-turbo-1106:
+  class_name: APIAgent
+  setting: 
+    model: gpt-3.5-turbo-1106
+    sys_prompt: ''
+
+gpt-3.5-turbo-16k:
+  class_name: APIAgent
+  setting: 
+    model: gpt-3.5-turbo-16k
+    sys_prompt: ''
+
+gpt-4:
+  class_name: APIAgent
+  setting: 
+    model: gpt-4
+    sys_prompt: ''
+
+gpt-4-1106-preview:
+  class_name: APIAgent
+  setting: 
+    model: gpt-4-1106-preview
+    sys_prompt: ''
+
+gpt-3.5-turbo-instruct:
+  class_name: APIAgent
+  setting: 
+    model: gpt-3.5-turbo-instruct
+    sys_prompt: ''
+
+text-davinci-002:
+  class_name: APIAgent
+  setting: 
+    model: text-davinci-002
+    sys_prompt: ''
+
+text-davinci-003:
+  class_name: APIAgent
+  setting: 
+    model: text-davinci-003
+    sys_prompt: ''
+
+gemini-pro:
+  class_name: APIAgent
+  setting: 
+    model: gemini-pro
+    url: 
+      - # [REQUIRED]
+    sys_prompt: ''
+
+# open source
+mixtral-7b*8:
+  class_name: APIAgent
+  setting: 
+    model: # [REQUIRED]
+    url: # [REQUIRED]
+    sys_prompt: ''
+
+llama2-13b-chat:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+llama2-7b-chat:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+llama2-70b-chat:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+tulu2-70b-dpo:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+tablellama:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+mistral-7b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+structlm-7b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+structlm-13b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+structlm-34b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+codellama-7b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+codellama-13b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
+
+codellama-34b:
+  class_name: openllm
+  setting:
+    model_path: # [REQUIRED]
