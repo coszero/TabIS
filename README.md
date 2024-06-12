@@ -1,12 +1,12 @@
 # TabIS
 
-Official code and data for paper "Uncovering Limitations of Large Language Models in Information Seeking from Tables" (Findings of ACL 2024).
+Code and data for paper [Uncovering Limitations of Large Language Models in Information Seeking from Tables](https://arxiv.org/abs/2406.04113) (Findings of ACL 2024).
 
-## Log
-```
-2024/06/11  Update data with improved quality & evaluation code
-2024/06/12  Update results of Llama3 on B-TIS
-```
+
+
+![](./fig/image.png)
+
+Tables are recognized for their high information density and widespread usage, serving as essential sources of information. Seeking information from tables (TIS) is a crucial capability for Large Language Models (LLMs), serving as the foundation of knowledge-based Q&A systems. However, this field presently suffers from an absence of thorough and reliable evaluation. This paper introduces a more reliable benchmark for Table Information Seeking (TabIS). To avoid the unreliable evaluation caused by text similarity-based metrics, TabIS adopts a single-choice question format (with two options per question) instead of a text generation format. We establish an effective pipeline for generating options, ensuring their difficulty and quality. Experiments conducted on 12 LLMs reveal that while the performance of GPT-4-turbo is marginally satisfactory, both other proprietary and open-source models perform inadequately. Further analysis shows that LLMs exhibit a poor understanding of table structures, and struggle to balance between TIS performance and robustness against pseudo-relevant tables (common in retrieval-augmented systems). These findings uncover the limitations and potential challenges of LLMs in seeking information from tables. We release our data and code to facilitate further research in this field.
 
 ## Data
 Our data is available here: [link](https://drive.google.com/file/d/1MFwMTHgxOTh7QFFRQ3cszoMCFxhNv9ui/view?usp=sharing).
@@ -49,7 +49,10 @@ Please put the test datasets (xxx.json) under `dataset_path`.
 
 
 ## Results on B-TIS
-
+```
+2024/06/12  We add the evaluation results of Llama3 models. 
+```
+We only report the results of B-TIS subset here. Please refer to our paper for more experimental results. EJ, MI, MO, HA denotes four stategies to generate wrong options.
 <table>
     <tr>
         <th rowspan="2" class="center-text">Model</th>
@@ -335,3 +338,16 @@ Please put the test datasets (xxx.json) under `dataset_path`.
         <td><b>81.1</b></td>
     </tr>
 </table>
+
+## Citation
+
+If you find our work helpful, please cite us
+
+```
+@inproceedings{pang2024uncovering,
+    title={Uncovering Limitations of Large Language Models in Information Seeking from Tables}, 
+    author={Chaoxu Pang and Yixuan Cao and Chunhao Yang and Ping Luo},
+    booktitle={Findings of Association for Computational Linguistics (ACL)},
+    year={2024}    
+}
+```
