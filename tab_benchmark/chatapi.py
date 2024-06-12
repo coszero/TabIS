@@ -2,7 +2,6 @@ import os
 import httpx
 from fastapi import FastAPI, Form
 from tab_benchmark.utils import add_dump_txt, check_path
-from config.paths import get_paths
 from httpx_socks import SyncProxyTransport, AsyncProxyTransport
 import time
 import datetime
@@ -13,19 +12,12 @@ import copy
 openai_chat_api = "https://api.openai.com/v1/chat/completions"
 openai_completion_api = "https://api.openai.com/v1/completions"
 openai_emb_api = "https://api.openai.com/v1/embeddings"
-firework_api = "https://api.fireworks.ai/inference/v1/chat/completions"
-openai_key = None # [REQUIRED]
-proxy = None # [REQUIRED]
+openai_key = os.getenv("OPENAI_KEY")
 
 headers_openai = {
     "Authorization": f"Bearer {openai_key}"
 }
 headers_app = {'Content-Type': 'application/json'}
-headers_fire = {
-    "accept": "application/json",
-    "content-type": "application/json",
-    "Authorization": f"Bearer j"
-}
 
 # better log path
 log_base_path = os.path.join(os.getenv("HOME"), "openai_cost/")
@@ -39,14 +31,14 @@ def get_reply(prompt, history=None, model = "gpt-3.5-turbo", temperature=0, n=1)
                         'gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-3.5-turbo-0613', 'gpt-3.5-turbo-16k-0613']
     """
     assert n >= 1
-    transport = SyncProxyTransport.from_url(proxy)
+    # transport = SyncProxyTransport.from_url(proxy)
     while True:
         try:
             new_history = copy.deepcopy(history)
             if new_history is None:
                 new_history = []
             new_history.append({"role": "user", "content": prompt})
-            with httpx.Client(transport=transport) as client:
+            with httpx.Client() as client:
                 resp = client.post(openai_chat_api, json={"model": model, 
                                                           "messages": new_history, "temperature": temperature, "n": n,
                                                           }, headers=headers_openai, timeout=5*60)
@@ -157,9 +149,6 @@ def get_parse_result_func(model):
 
 def get_packing_func(model):
     if "gemini" in model:
-        # cats = ["HARM_CATEGORY_UNSPECIFIED", "HARM_CATEGORY_DEROGATORY", "HARM_CATEGORY_TOXICITY", "HARM_CATEGORY_VIOLENCE",
-        #         "HARM_CATEGORY_SEXUAL", "HARM_CATEGORY_MEDICAL", "HARM_CATEGORY_DANGEROUS", "HARM_CATEGORY_HARASSMENT", "HARM_CATEGORY_HATE_SPEECH",
-        #         "HARM_CATEGORY_SEXUALLY_EXPLICIT", "HARM_CATEGORY_DANGEROUS_CONTENT"]
         cats = ["HARM_CATEGORY_SEXUALLY_EXPLICIT", "HARM_CATEGORY_HATE_SPEECH", "HARM_CATEGORY_HARASSMENT", "HARM_CATEGORY_DANGEROUS_CONTENT"]
         safety_setting = [{"category": cat, "threshold": "BLOCK_NONE"} for cat in cats]
         return lambda x, n: {

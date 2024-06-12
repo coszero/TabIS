@@ -90,14 +90,7 @@ def infer_max_memory(visible_devices, max_memory_per_device):
 
 
 if __name__ == '__main__':
-    '''
-    Please check Your config.
-    Large model can be loaded dispersedly.
-    max_memory = {
-        4: '15GiB',
-        6: '25GiB',
-    }
-    '''
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", type=str, default="llama", 
                         help="Please specifiy the name of the model.")

@@ -270,7 +270,6 @@ class MetricToolkit():
         
         grouped_metrics = {}
         for key_, sub_pred_res in grouped_pred_res.items():
-            print(key_, len(sub_pred_res))
             metrics = self.compute_metrics(sub_pred_res)
             grouped_metrics[key_] = metrics
         

@@ -4,8 +4,9 @@ import os
 import copy
 import subprocess
 from tab_benchmark.chatapi import get_reply, get_reply_completion, get_reply_from_api
-from tab_benchmark.utils import default_dump_json, default_load_json, check_path, default_load_jsonl
+from tab_benchmark.utils import default_dump_json, default_load_json, check_path, default_load_jsonl, get_logger
 
+logger = get_logger(__name__)
 
 class BaseChat(object):
     """
@@ -81,7 +82,7 @@ class OpenLLMAgent():
         self.spec_name = spec_name
         self.setting = setting
     
-    def forward_all_samples(self, samples, gpu_devices, script_path, verbalizer=None, dump_dir=None):
+    def forward_all_samples(self, samples, gpu_devices, script_path, max_memory_per_device, verbalizer=None, dump_dir=None):
         # (1) dump the samples & dataset_info.json to dump dir; (2) run the prediction script from LLaMa-Efficient-Tuning project; 
         # (3) load and process the prediction results
         
@@ -94,7 +95,7 @@ class OpenLLMAgent():
         --dataset_json_path {data_path} \
         --dump_path {dump_dir} \
         --visible_devices {gpu_devices} \
-        --max_memory_per_device 30 \
+        --max_memory_per_device {max_memory_per_device} \
         """
         subprocess.run(command, shell=True)
 
@@ -104,7 +105,7 @@ class OpenLLMAgent():
 
     @staticmethod
     def from_setting(spec_name, setting) -> 'OpenLLMAgent':
-        print(setting)
+        logger.info(f"{spec_name}: {setting}")
         return OpenLLMAgent(
             spec_name=spec_name,
             setting=setting
