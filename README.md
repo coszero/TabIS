@@ -5,6 +5,7 @@ Official code and data for paper "Uncovering Limitations of Large Language Model
 ## Log
 ```
 2024/06/11  Update data with improved quality & evaluation code
+2024/06/12  Update results of Llama3 on B-TIS
 ```
 
 ## Data
@@ -58,20 +59,20 @@ Please put the test datasets (xxx.json) under `dataset_path`.
     <tr>
         <th>EJ</th>
         <th>MI</th>
-        <th>MA</th>
-        <th>HL</th>
+        <th>MO</th>
+        <th>HA</th>
         <th>Avg.</th>
         <th>EJ</th>
         <th>MI</th>
-        <th>MA</th>
-        <th>HL</th>
+        <th>MO</th>
+        <th>HA</th>
         <th>Avg.</th>
     </tr>
     <tr>
-        <td colspan="11">proprietary model</td>
+        <td colspan="11"><b>proprietary model</b></td>
     </tr>
     <tr>
-        <td>gemini-pro</td>
+        <td>Gemini-pro</td>
         <td>70.2</td>
         <td>93.3</td>
         <td>87.9</td>
@@ -128,15 +129,15 @@ Please put the test datasets (xxx.json) under `dataset_path`.
         <td>93.5</td>
         <td>96.4</td>
         <td>85.2</td>
-        <td>91.2</td>
+        <td><b>91.2</b></td>
         <td>73.5</td>
         <td>85.2</td>
         <td>91.8</td>
         <td>77.1</td>
-        <td>82.4</td>
+        <td><b>82.4</b></td>
     </tr>
     <tr>
-        <td colspan="11">open source</td>
+        <td colspan="11"><b>open source model</b></td>
     </tr>
     <tr>
         <td>Llama2-7b-chat</td>
@@ -326,24 +327,11 @@ Please put the test datasets (xxx.json) under `dataset_path`.
         <td>94.0</td>
         <td>96.4</td>
         <td>90.9</td>
-        <td>92.6</td>
+        <td><b>92.6</b></td>
         <td>72.4</td>
         <td>83.2</td>
         <td>91.5</td>
         <td>74.3</td>
-        <td>81.1</td>
-    </tr>
-    <tr>
-        <td>average</td>
-        <td>59.2</td>
-        <td>77.8</td>
-        <td>78.3</td>
-        <td>67.4</td>
-        <td>73.4</td>
-        <td>50.6</td>
-        <td>65.7</td>
-        <td>71.4</td>
-        <td>52.3</td>
-        <td>61.0</td>
+        <td><b>81.1</b></td>
     </tr>
 </table>
