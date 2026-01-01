@@ -14,8 +14,17 @@ openai_completion_api = "https://api.openai.com/v1/completions"
 openai_emb_api = "https://api.openai.com/v1/embeddings"
 openai_key = os.getenv("OPENAI_KEY")
 
+open_router_api = "https://openrouter.ai/api/v1/chat/completions"
+open_router_key = os.getenv(
+    "OPENROUTER_KEY",
+    "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",
+)
+
 headers_openai = {
     "Authorization": f"Bearer {openai_key}"
+}
+headers_open_router = {
+    "Authorization": f"Bearer {open_router_key}"
 }
 headers_app = {'Content-Type': 'application/json'}
 
@@ -39,9 +48,9 @@ def get_reply(prompt, history=None, model = "gpt-3.5-turbo", temperature=0, n=1)
                 new_history = []
             new_history.append({"role": "user", "content": prompt})
             with httpx.Client() as client:
-                resp = client.post(openai_chat_api, json={"model": model, 
+                resp = client.post(open_router_api, json={"model": model,
                                                           "messages": new_history, "temperature": temperature, "n": n,
-                                                          }, headers=headers_openai, timeout=5*60)
+                                                          }, headers=headers_open_router, timeout=5*60)
                 data = resp.json()
                 if data.get('choices'):
                     usage = data['usage']
@@ -75,18 +84,21 @@ def get_reply_completion(prompt, model="gpt-3.5-turbo-instruct", temperature=0, 
     while True:
         try:
             with httpx.Client(transport=transport) as client:
-                resp = client.post(openai_completion_api, json={"model": model, 
-                                                          "prompt": prompt, "temperature": temperature, "n": n}, 
-                                                          headers=headers_openai, timeout=2*60)
+                resp = client.post(open_router_api, json={
+                    "model": model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": temperature,
+                    "n": n
+                }, headers=headers_open_router, timeout=2*60)
                 data = resp.json()
                 if data.get('choices'):
                     usage = data['usage']
                     cost = compute_cost(usage, model)
                     add_dump_txt(cost, dump_to.format(str(datetime.date.today())))
                     if n > 1:
-                        reply = [c['text'] for c in data['choices']]
+                        reply = [c['message']['content'] for c in data['choices']]
                     else:
-                        reply = data['choices'][0]["text"]
+                        reply = data['choices'][0]["message"]["content"]
                     return reply
                 else:
                     raise ValueError(f"return: {data}")
@@ -242,4 +254,3 @@ def report_cost(date=None):
         dollar = sum(costs)
     print(f"date: {date}")
     print(f"cost: {round(dollar, 4)} dollars.")
-
