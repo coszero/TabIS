@@ -1,0 +1,4 @@
+/data/*
+/exp/*
+!data/.gitkeep
+!exp/.gitkeep
